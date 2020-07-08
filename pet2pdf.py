@@ -3,6 +3,8 @@ import os
 from datetime import date
 import string
 
+DEBUG_MODE = True
+
 # Completa com um zero à esquerda em inteiros de um dígito
 # Retorna uma string do inteiro recebido
 def completaZero(num):
@@ -14,6 +16,8 @@ def completaZero(num):
 # Apresenta uma seção de confirmação para o usuário, que digita Y ou N
 # para confirmar ou negar
 def userConfirm():
+    if DEBUG_MODE: return True
+
     validInput = False
     while (not validInput):
         userVal = input('Confirmar? (S/N) ')
@@ -37,14 +41,17 @@ def defNomeArquivo():
         day = completaZero(today.day)
         
         # Última posição já utilizada
-        lastNum = input('Ultimo numero da ordem: ')
-        while (not lastNum.isdigit()):
-            print('Entrada nao eh um numero valido')
+        if DEBUG_MODE:
+            currentNum = 11
+        else:
             lastNum = input('Ultimo numero da ordem: ')
-        currentNum = int(lastNum) + 1
+            while (not lastNum.isdigit()):
+                print('Entrada nao eh um numero valido')
+                lastNum = input('Ultimo numero da ordem: ')
+            currentNum = int(lastNum) + 1
         
         # Formação do prefixo do nome dos arquivos
-        fileName = str(currentNum) + '. ' + day + '-' + month + ' / '
+        fileName = str(currentNum) + '. ' + day + '-' + month + ' . '
         print('Arquivos terao nome: ', fileName)
         userOK = userConfirm()
         if not userOK: print()
@@ -67,25 +74,37 @@ def extArquivo(nome):
     return res
 
 def main():
-    # preffix = defNomeArquivo()
+    preffix = defNomeArquivo()
     
 
     # CONVERSÃO DE DOCX PARA PDF
     # Iterar pelos arquivos da pasta 'docs'
     docsDir = next(os.walk('./docs'))
     docsList = docsDir[2]
-    for file in docsList:
-        nome = extArquivo(file)
-        nomeDOCX = str(file)
-        nomePDF = nome + '.pdf'
 
-        path = os.path.abspath('docs/')
-        pathDOCX = path + nomeDOCX
-        pathPDF = path + nomePDF
+    # Renomear de acordo com o prefixo padrão
+    for filename in docsList: 
+        nomeDOCX = str(filename)
+        newnomeDOCX = preffix + nomeDOCX
+        oldFile = os.path.join("docs", nomeDOCX)
+        newFile = os.path.join("docs", newnomeDOCX)
+        os.rename(oldFile, newFile)
+        print('RENOMEAR: ' + newnomeDOCX)
+    
+    print()
 
-        # docx2pdf.convert(pathDOCX, pathPDF)
-        # print(os.path.abspath('docs/'+file))
-        # print(file)
+    # for file in docsList:
+    #     nome = extArquivo(file)
+    #     nomeDOCX = str(file)
+    #     nomePDF = nome + '.pdf'
+
+    #     path = os.path.abspath('docs/')
+    #     pathDOCX = path + nomeDOCX
+    #     pathPDF = path + nomePDF
+
+    #     # docx2pdf.convert(pathDOCX, pathPDF)
+    #     # print(os.path.abspath('docs/'+file))
+    #     # print(file)
 
     
 
