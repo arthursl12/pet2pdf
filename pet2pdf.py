@@ -1,4 +1,3 @@
-import docx2pdf
 import os
 from datetime import date
 import string
@@ -91,25 +90,6 @@ def main():
         os.rename(oldFile, newFile)
         print('RENOMEAR: ' + newnomeDOCX)
     print()
-
-    # CONVERSÃO DE DOCX PARA PDF
-    # for file in docsList:
-    #     nome = extArquivo(file)
-    #     nomeDOCX = str(file)
-    #     nomePDF = nome + '.pdf'
-
-    #     path = os.path.abspath('docs/')
-    #     pathDOCX = path + nomeDOCX
-    #     pathPDF = path + nomePDF
-
-    #     # docx2pdf.convert(pathDOCX, pathPDF)
-    #     # print(os.path.abspath('docs/'+file))
-    #     # print(file)
-
-    
-
-
-
 
 
 if (__name__ == '__main__'):
