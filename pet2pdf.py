@@ -74,10 +74,10 @@ def extArquivo(nome):
     return res
 
 def main():
+    # DEFINIÇÃO DO PREFIXO
     preffix = defNomeArquivo()
     
-
-    # CONVERSÃO DE DOCX PARA PDF
+    # RENOMEAÇÃO
     # Iterar pelos arquivos da pasta 'docs'
     docsDir = next(os.walk('./docs'))
     docsList = docsDir[2]
@@ -90,9 +90,9 @@ def main():
         newFile = os.path.join("docs", newnomeDOCX)
         os.rename(oldFile, newFile)
         print('RENOMEAR: ' + newnomeDOCX)
-    
     print()
 
+    # CONVERSÃO DE DOCX PARA PDF
     # for file in docsList:
     #     nome = extArquivo(file)
     #     nomeDOCX = str(file)
