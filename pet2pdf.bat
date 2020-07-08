@@ -1,3 +1,3 @@
 python pet2pdf.py
-docx2pdf docs
+docx2pdf .
 pause
