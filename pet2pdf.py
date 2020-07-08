@@ -1,8 +1,10 @@
 import os
+import glob
 from datetime import date
 import string
 
-DEBUG_MODE = True
+DEBUG_MODE = False
+CURRENT_PATH_MODE = True
 
 # Completa com um zero à esquerda em inteiros de um dígito
 # Retorna uma string do inteiro recebido
@@ -72,21 +74,36 @@ def extArquivo(nome):
     res = nome[0:j]
     return res
 
+# Dada uma lista com nomes de arquivo
+# Retorna uma outra lista apenas com os nomes dos arquivos com extensão '.docx'
+def somenteDocx(lista):
+    for nomes in lista:
+        ext = nomes[-4:]
+        print(ext)
+
+
 def main():
     # DEFINIÇÃO DO PREFIXO
     preffix = defNomeArquivo()
     
     # RENOMEAÇÃO
-    # Iterar pelos arquivos da pasta 'docs'
-    docsDir = next(os.walk('./docs'))
+    # Definir o caminho da pasta-alvo
+    if CURRENT_PATH_MODE:
+        docsDir = next(os.walk('.'))
+    else:
+        docsDir = next(os.walk('./docs'))
     docsList = docsDir[2]
 
     # Renomear de acordo com o prefixo padrão
     for filename in docsList: 
         nomeDOCX = str(filename)
         newnomeDOCX = preffix + nomeDOCX
-        oldFile = os.path.join("docs", nomeDOCX)
-        newFile = os.path.join("docs", newnomeDOCX)
+        if CURRENT_PATH_MODE:
+            oldFile = nomeDOCX
+            newFile = newnomeDOCX
+        else:
+            oldFile = os.path.join("docs", nomeDOCX)
+            newFile = os.path.join("docs", newnomeDOCX)
         os.rename(oldFile, newFile)
         print('RENOMEAR: ' + newnomeDOCX)
     print()
