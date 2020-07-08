@@ -75,11 +75,18 @@ def extArquivo(nome):
     return res
 
 # Dada uma lista com nomes de arquivo
-# Retorna uma outra lista apenas com os nomes dos arquivos com extensão '.docx'
-def somenteDocx(lista):
+# Retorna uma outra lista apenas com os nomes dos arquivos com extensão 'target'
+# (cuidado: não necessita do ponto antes da extensão)
+def somenteExt(lista, target):
+    resposta = []
+    target = '.' + target
     for nomes in lista:
-        ext = nomes[-4:]
-        print(ext)
+        off = len(target)
+        ext = nomes[-off:]
+        if ext == target:
+            resposta.append(nomes)
+            print(nomes)
+    return resposta
 
 
 def main():
@@ -93,7 +100,8 @@ def main():
     else:
         docsDir = next(os.walk('./docs'))
     docsList = docsDir[2]
-
+    docsList = somenteExt(docsList, 'docx')
+    
     # Renomear de acordo com o prefixo padrão
     for filename in docsList: 
         nomeDOCX = str(filename)
